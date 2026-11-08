@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#090a12">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="Hueflux is a colorful, developer-focused color converter and contrast checker.">
+  <title>Hueflux — Color, in every dimension</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="global.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <div class="ambient ambient-one" aria-hidden="true"></div>
+  <div class="ambient ambient-two" aria-hidden="true"></div>
+
+  <main class="shell">
+    <header class="topbar">
+      <a class="brand" href="./" aria-label="Hueflux home">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span>hueflux<span class="brand-dot">.</span></span>
+      </a>
+      <span class="top-note"><span class="live-dot"></span> COLOR UTILITIES <span class="top-index">/ 002</span></span>
+    </header>
+
+    <section class="hero">
+      <p class="eyebrow">A small toolkit for the color-obsessed</p>
+      <h1>Color, in every<br><span>dimension.</span></h1>
+      <p class="intro">Translate color spaces, inspect gamut, and check accessible contrast. One focused workspace for the details that make interfaces feel right.</p>
+    </section>
+
+    <nav class="tabs" role="tablist" aria-label="Color tool views">
+      <button class="tab is-active" id="tab-convert" type="button" role="tab" aria-controls="view-convert" aria-selected="true">
+        <span class="tab-symbol">◈</span> Convert
+      </button>
+      <button class="tab" id="tab-contrast" type="button" role="tab" aria-controls="view-contrast" aria-selected="false" tabindex="-1">
+        <span class="tab-symbol">◐</span> Contrast
+      </button>
+    </nav>
+
+    <section class="workspace">
+      <section class="view" id="view-convert" role="tabpanel" aria-labelledby="tab-convert">
+        <div class="card input-card">
+          <div class="section-heading">
+            <div><span class="step">01 / INPUT</span><h2>Inspect a color</h2></div>
+            <span class="auto-tag" id="detected">AUTO-DETECT</span>
+          </div>
+          <label for="color-input">Color value</label>
+          <div class="input-wrap">
+            <span class="input-prefix">↳</span>
+            <input id="color-input" value="#7968f7" autocomplete="off" autocapitalize="off" spellcheck="false" aria-describedby="input-help">
+          </div>
+          <p class="help" id="input-help">Try <code>#7968f7</code>, <code>rgb(121 104 247)</code>, <code>220 18% 17%</code> or <code>oklch(0.65 0.2 285)</code>.</p>
+          <div class="preview-wrap">
+            <div class="preview" id="color-preview" role="img" aria-label="Preview of the selected color"></div>
+            <div class="preview-caption"><span>LIVE PREVIEW</span><span id="color-status">Color updated</span></div>
+          </div>
+        </div>
+
+        <div class="card gamut-card">
+          <div class="section-heading compact">
+            <div><span class="step">02 / RANGE</span><h2>Gamut check</h2></div>
+            <span class="micro-label">SRGB / DISPLAY P3</span>
+          </div>
+          <div class="gamut-list" id="gamut-results" aria-live="polite"></div>
+        </div>
+
+        <div class="card output-card">
+          <div class="section-heading">
+            <div><span class="step">03 / OUTPUT</span><h2>Ready to use</h2></div>
+            <button class="button button-primary" id="copy-all" type="button">Copy all <span aria-hidden="true">↗</span></button>
+          </div>
+          <div class="output-list" id="output-list"></div>
+          <p class="error" id="convert-error" role="alert"></p>
+        </div>
+      </section>
+
+      <section class="view" id="view-contrast" role="tabpanel" aria-labelledby="tab-contrast" hidden>
+        <div class="card contrast-card">
+          <div class="section-heading">
+            <div><span class="step">01 / COLOR PAIR</span><h2>Make text readable</h2></div>
+            <span class="auto-tag">WCAG 2.1 + APCA</span>
+          </div>
+          <div class="pair-grid">
+            <div class="field-group">
+              <label for="foreground">Foreground</label>
+              <input id="foreground" value="#f5f3ff" autocomplete="off" spellcheck="false">
+            </div>
+            <button class="swap-button" id="swap-colors" type="button" aria-label="Swap foreground and background">⇄</button>
+            <div class="field-group">
+              <label for="background">Background</label>
+              <input id="background" value="#171326" autocomplete="off" spellcheck="false">
+            </div>
+          </div>
+          <p class="error" id="contrast-error" role="alert"></p>
+          <div class="sample" id="contrast-sample">
+            <span class="sample-label">LIVE TYPE SAMPLE</span>
+            <strong>Make it clear.</strong>
+            <span>The quick brown fox jumps over the lazy dog.</span>
+          </div>
+        </div>
+
+        <div class="card results-card" aria-live="polite">
+          <div class="section-heading compact">
+            <div><span class="step">02 / RESULTS</span><h2>Contrast report</h2></div>
+            <span class="micro-label">ACCESSIBILITY</span>
+          </div>
+          <div class="score-row">
+            <div><span class="score-label">WCAG CONTRAST</span><strong class="score" id="contrast-ratio">—</strong></div>
+            <div class="apca-score"><span class="score-label">APCA Lc</span><strong id="apca-score">—</strong></div>
+          </div>
+          <div class="checks" id="contrast-checks"></div>
+          <p class="help apca-note">APCA is an additional readability model, not part of WCAG 2.1 conformance. Alpha transparency is not composited in this check.</p>
+        </div>
+      </section>
+    </section>
+
+    <footer class="footer">
+      <span>MADE FOR THE FINER DETAILS</span>
+      <span>HUEFLUX <b>✳</b> POWERED BY CULORI + APCA</span>
+    </footer>
+  </main>
+</body>
+</html>
